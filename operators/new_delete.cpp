@@ -2,6 +2,9 @@
 #include <new>
 #include <vector>
 
+// buffer to be used for non heap placement allocation
+static unsigned char buffer[8];
+
 // Test classes
 class A {
   int x;
@@ -21,8 +24,6 @@ class B {
 
 // 1. Overload global operator new/delete here (print pointer and size)
 
-// 2. Declare static buffer for C here
-
 class C {
   int a, b;
 
@@ -30,23 +31,35 @@ class C {
   C() : a(4), b(5) { std::cout << "C constructed\n"; }
   ~C() { std::cout << "C destructed\n"; }
 
-  // 3. Overload operator new/delete just for class C (print pointer and size)
-  // 4. Placement new using static buffer (print pointer)
+  // 2. Overload operator new/delete just for class C (print class C as name +
+  // pointer and size)
+
+  // 3. Placement new using static buffer - see line 6 (print pointer)
 };
 
 int main() {
-  // 5. Allocate and delete A, B, C
+  // Allocate and delete A, B, C
   std::cout << "--- Allocating/Deallocating A ---\n";
+  A* a = new A;
+  delete a;
 
   std::cout << "--- Allocating/Deallocating B ---\n";
+  B* b = new B;
+  delete b;
 
   std::cout << "--- Allocating/Deallocating C (class-specific new) ---\n";
+  C* c = new C;
+  delete c;
 
   std::cout << "--- Allocating/Deallocating C with placement new (static "
                "buffer) ---\n";
+  C* c2 = new (buffer) C;
+  c2->~C();  // Manual destructor call, no delete needed
 
-  // 6. Play with std::vector<int> (insert some elements, so how allocations are
-  // working)
+  // Checking what container uses
+  std::cout << "--- std::vector<C> allocations ---\n";
+  std::vector<C> v;
+  for (int i = 0; i < 10; ++i) v.push_back(C{});
 
   return 0;
 }

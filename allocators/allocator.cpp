@@ -13,6 +13,7 @@ class A {
 
 class MyAllocator {
   // 1.) Write body -> should be linear allocator, using fixed size buffer
+  // print data on all operations
 };
 
 // 2.) Use MyAllocator to allocate/deallocate memory
