@@ -4,4 +4,7 @@
 #include <new>
 #include <vector>
 
-int main() { return 0; }
+int main() {
+  std::cout << "--- END OF MAIN ---\n";
+  return 0;
+}

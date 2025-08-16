@@ -25,6 +25,6 @@ int main() {
   for (int i = 0; i < 3; ++i) {
     v1.push_back(i);
   }
-
+  std::cout << "--- END OF MAIN ---\n";
   return 0;
 }

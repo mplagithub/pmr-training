@@ -13,8 +13,7 @@ int main() {
   constexpr size_t SMALL_SIZE = 32;
   constexpr size_t LARGE_SIZE = 100 * 1024 * 1024;  // 100 MB
 
-  std::vector<void*> ptrs;
-  ptrs.reserve(N);
+  std::vector<void*> ptrs{N, nullptr};
 
   // Small allocations
   std::cout << "Benchmark: Small allocations " << SMALL_SIZE << "bytes "
@@ -64,9 +63,11 @@ int main() {
     static_cast<char*>(big_ptr)[i] = 1;
   }
   auto t8 = high_resolution_clock::now();
-  ::operator delete(big_ptr);
+
   std::cout << "Allocated and touched 100MB in "
             << duration_cast<milliseconds>(t8 - t7).count() << " ms\n";
+
+  ::operator delete(big_ptr);
 
   return 0;
 }

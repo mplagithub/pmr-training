@@ -61,5 +61,6 @@ int main() {
   std::vector<C> v;
   for (int i = 0; i < 10; ++i) v.push_back(C{});
 
+  std::cout << "--- END OF MAIN ---\n";
   return 0;
 }
